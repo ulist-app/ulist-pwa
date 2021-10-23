@@ -20,10 +20,10 @@ export class CategoryRepositoryImplementation implements CategoryRepository {
 
   async findAll (): Promise<Category[]> {
     const rawCategories = await this.db.api.allDocs<RawCategory>({ include_docs: true })
-    return rawCategories.rows.map<Category>(
-      ({ id, doc }) =>
+    return rawCategories.rows
+      .map<Category>(({ id, doc }) =>
         CategoryRepositoryImplementation.mapToDomain(id, doc)
-    )
+      )
   }
 
   async save (category: Category): Promise<void> {
