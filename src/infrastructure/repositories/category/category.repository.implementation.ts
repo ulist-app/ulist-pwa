@@ -12,6 +12,6 @@ export class CategoryRepositoryImplementation implements CategoryRepository {
   constructor (private readonly db: PouchDatasource) {}
   async findAll (): Promise<Category[]> {
     const rawCategories = await this.db.api.allDocs<RawCategory[]>({ include_docs: true })
-    return rawCategories.rows.map(({ id, doc }) => new Category({ id: new Id(id), ...doc }))
+    return rawCategories.rows.map(({ id, doc }) => new Category({ ...doc, id: new Id(id) }))
   }
 }
