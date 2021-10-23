@@ -1,6 +1,7 @@
 import { ItemList } from './item-list'
 import { Id } from '../id'
 import { Item } from '../item'
+import { palette } from '../../constants'
 
 describe('Item List should', () => {
   describe('be created', () => {
@@ -33,8 +34,8 @@ describe('Item List should', () => {
         expect(itemList.name).toBe('Untitled')
       })
 
-      it('color as #939393', () => {
-        expect(itemList.color).toBe('#939393')
+      it('color as gray', () => {
+        expect(itemList.color).toBe(palette.gray)
       })
 
       it('items as empty list', () => {

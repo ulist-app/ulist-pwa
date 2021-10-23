@@ -1,4 +1,5 @@
 import { Id } from '../id'
+import { palette } from '../../constants'
 
 type ItemListId = Id
 type TagId = Id
@@ -21,7 +22,7 @@ export class Category {
   constructor ({ id, name, color, lists, tags }: CategoryParams = {}) {
     this.id = id || new Id()
     this.name = name || 'Untitled'
-    this.color = color || '#939393'
+    this.color = color || palette.gray
     this.lists = lists || []
     this.tags = tags || []
   }

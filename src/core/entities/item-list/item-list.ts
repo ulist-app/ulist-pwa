@@ -1,5 +1,6 @@
 import { Item } from '../item'
 import { Id } from '../id'
+import { palette } from '../../constants'
 
 interface ItemListParams {
   id?: Id;
@@ -19,7 +20,7 @@ export class ItemList {
   constructor ({ id, name, color, items, template }: ItemListParams = {}) {
     this.id = id || new Id()
     this.name = name || 'Untitled'
-    this.color = color || '#939393'
+    this.color = color || palette.gray
     this.items = items || []
     this.template = template ?? false
   }

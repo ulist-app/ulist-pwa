@@ -1,5 +1,6 @@
 import { Id } from '../id'
 import { Tag } from './tag'
+import { palette } from '../../constants'
 
 describe('Tag should', () => {
   describe('be created', () => {
@@ -22,8 +23,8 @@ describe('Tag should', () => {
       it('name as "Untitled"', () => {
         expect(tag.name).toBe('Untitled')
       })
-      it('color as #939393', () => {
-        expect(tag.color).toBe('#939393')
+      it('color as gray', () => {
+        expect(tag.color).toBe(palette.gray)
       })
     })
   })

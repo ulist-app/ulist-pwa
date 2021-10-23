@@ -1,4 +1,5 @@
 import { Id } from '../id'
+import { palette } from '../../constants'
 
 interface TagParams {
   id?: Id
@@ -14,6 +15,6 @@ export class Tag {
   constructor ({ id, name, color }: TagParams = {}) {
     this.id = id || new Id()
     this.name = name || 'Untitled'
-    this.color = color || '#939393'
+    this.color = color || palette.gray
   }
 }

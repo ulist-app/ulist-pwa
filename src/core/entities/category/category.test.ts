@@ -1,5 +1,6 @@
 import { Category } from './category'
 import { Id } from '../id'
+import { palette } from '../../constants'
 
 describe('Category should', () => {
   describe('be created', () => {
@@ -28,8 +29,8 @@ describe('Category should', () => {
         expect(category.id).toBeInstanceOf(Id)
       })
 
-      it('color as #939393', () => {
-        expect(category.color).toBe('#939393')
+      it('color as gray', () => {
+        expect(category.color).toBe(palette.gray)
       })
 
       it('name as "Untitled"', () => {
