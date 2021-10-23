@@ -1,4 +1,14 @@
 /* eslint-disable camelcase */
+import PouchDb from 'pouchdb-browser'
+
+export class PouchDatasource {
+  readonly api: PouchDatabaseApi
+
+  constructor (databaseURL: string) {
+    this.api = new PouchDb(databaseURL) as PouchDatabaseApi
+  }
+}
+
 interface EventEmitter {
   addListener(event: string | symbol, listener: Function): this;
 
@@ -567,7 +577,7 @@ interface RemoveAttachmentResponse extends BasicResponse {
   rev: RevisionId;
 }
 
-export interface PouchDatabase<Content extends {} = {}> extends EventEmitter {
+interface PouchDatabaseApi<Content extends {} = {}> extends EventEmitter {
   /** The name passed to the PouchDB constructor and unique identifier of the database. */
   name: string;
 
