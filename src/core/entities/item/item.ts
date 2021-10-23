@@ -1,61 +1,26 @@
-import { TemplateItem, TemplateItemParams } from '../template-item'
+import { Id } from '../id'
+import { Tag } from '../tag'
 
-interface ItemParams extends TemplateItemParams {
+interface ItemParams {
+  id?: Id
+  name?: string
+  tags?: Tag[]
   checked?: boolean
   quantity?: number
-  updatedAt: string
 }
 
-export class Item extends TemplateItem {
-  private _checked: boolean
-  private _quantity: number
-  private _updatedAt: string
+export class Item {
+  readonly id: Id
+  readonly tags: Tag[]
+  readonly name: string
+  readonly checked: boolean
+  readonly quantity: number
 
-  constructor ({ checked, quantity, updatedAt, ...templateParams }: ItemParams) {
-    super(templateParams)
-    this._checked = checked ?? false
-    this._quantity = quantity ?? 1
-    this._updatedAt = updatedAt
-  }
-
-  get quantity () {
-    return this._quantity
-  }
-
-  get updatedAt () {
-    return this._updatedAt
-  }
-
-  isChecked () {
-    return this._checked
-  }
-
-  check () {
-    this._checked = true
-    this.updateEditionDateTime()
-  }
-
-  uncheck () {
-    this._checked = false
-    this.updateEditionDateTime()
-  }
-
-  toggle () {
-    this._checked = !this.isChecked()
-    this.updateEditionDateTime()
-  }
-
-  increment (amount: number = 1) {
-    this._quantity += amount
-    this.updateEditionDateTime()
-  }
-
-  decrement (amount: number = 1) {
-    this._quantity -= amount
-    this.updateEditionDateTime()
-  }
-
-  private updateEditionDateTime () {
-    this._updatedAt = new Date().toISOString()
+  constructor ({ id, name, tags, checked, quantity }: ItemParams = {}) {
+    this.id = id || new Id()
+    this.name = name || 'Untitled'
+    this.tags = tags || []
+    this.checked = checked ?? false
+    this.quantity = quantity ?? 1
   }
 }

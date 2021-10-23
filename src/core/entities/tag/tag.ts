@@ -1,19 +1,15 @@
 import { Id } from '../id'
 
+interface TagParams {
+  id?: Id
+  name?: string
+}
+
 export class Tag {
-  private _name: string
-  constructor (
-    name: string,
-    readonly id: Id = new Id()
-  ) {
-    this._name = name
-  }
-
-  get name () {
-    return this._name
-  }
-
-  rename (newName: string) {
-    this._name = newName
+  readonly id: Id
+  readonly name: string
+  constructor ({ id, name }: TagParams = {}) {
+    this.id = id || new Id()
+    this.name = name || 'Untitled'
   }
 }
