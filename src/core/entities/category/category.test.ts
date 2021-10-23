@@ -33,7 +33,7 @@ describe('Category should', () => {
       })
 
       it('name as "Untitled"', () => {
-        expect(category.color).toBe('#939393')
+        expect(category.name).toBe('Untitled')
       })
 
       it('lists as empty list', () => {

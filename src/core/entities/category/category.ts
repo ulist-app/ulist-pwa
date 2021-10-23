@@ -11,7 +11,6 @@ interface CategoryParams {
   tags?: TagId[]
 }
 
-// TODO: Remove category from other entities
 export class Category {
   readonly id: Id
   readonly name: string

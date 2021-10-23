@@ -1,11 +1,12 @@
 /* eslint-disable camelcase */
 
 import { CategoryRepository } from '../../../application/repositories'
-import { Category, Id } from '../../../core/entities'
+import { Category, Id } from '../../../core'
 import { PouchDatasource } from '../pouchDb.datasource'
 
-interface RawCategory {
+export interface RawCategory {
   _id: string
+  _rev?: string
   id: string
   name: string
   color: string
@@ -18,19 +19,19 @@ export class CategoryRepositoryImplementation implements CategoryRepository {
   }
 
   async findAll (): Promise<Category[]> {
-    const rawCategories = await this.db.api.allDocs<RawCategory[]>({ include_docs: true })
-    return rawCategories.rows.map(({ id, doc }) => new Category({ ...doc, id: new Id(id) }))
+    const rawCategories = await this.db.api.allDocs<RawCategory>({ include_docs: true })
+    return rawCategories.rows.map<Category>(
+      ({ id, doc }) =>
+        CategoryRepositoryImplementation.mapToDomain(id, doc)
+    )
   }
 
   async save (category: Category): Promise<void> {
     try {
-      const storedCategory = await this.db.api.get(category.id.value)
-      await this.db.api.put({
-        ...CategoryRepositoryImplementation.mapToDatabase(category),
-        _rev: storedCategory._rev
-      })
+      const { _rev } = await this.db.api.get(category.id.value)
+      await this.db.api.put(CategoryRepositoryImplementation.mapToDatabase(category, _rev))
     } catch (err) {
-      if (this.db.isPouchDbError(err) && err?.status === 404) {
+      if (PouchDatasource.isPouchDbError(err) && err?.status === 404) {
         await this.db.api.put(CategoryRepositoryImplementation.mapToDatabase(category))
       } else {
         throw err
@@ -38,13 +39,30 @@ export class CategoryRepositoryImplementation implements CategoryRepository {
     }
   }
 
-  private static mapToDatabase (category: Category): RawCategory {
-    return {
+  private static mapToDomain (id: string, doc = {} as RawCategory): Category {
+    return new Category({
+      ...doc,
+      id: new Id(id),
+      lists: (doc.lists || []).map(id => new Id(id)),
+      tags: (doc.tags || []).map(id => new Id(id))
+    })
+  }
+
+  private static mapToDatabase (category: Category, revision?: string): RawCategory {
+    const rawCategory = {
       ...category,
       id: category.id.value,
       _id: category.id.value,
       lists: category.lists.map(id => id.value),
       tags: category.tags.map(id => id.value)
+    }
+    if (revision !== undefined) {
+      return {
+        ...rawCategory,
+        _rev: revision
+      }
+    } else {
+      return rawCategory
     }
   }
 }

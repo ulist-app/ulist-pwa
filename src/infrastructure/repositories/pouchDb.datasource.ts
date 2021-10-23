@@ -8,7 +8,7 @@ export class PouchDatasource {
     this.api = new PouchDb(databaseURL) as PouchDatabaseApi
   }
 
-  isPouchDbError (error: unknown): error is PouchDbError {
+  static isPouchDbError (error: unknown): error is PouchDbError {
     return 'status' in (error as any)
   }
 }
@@ -581,7 +581,7 @@ interface RemoveAttachmentResponse extends BasicResponse {
   rev: RevisionId;
 }
 
-interface PouchDatabaseApi<Content extends {} = {}> extends EventEmitter {
+export interface PouchDatabaseApi<Content extends {} = {}> extends EventEmitter {
   /** The name passed to the PouchDB constructor and unique identifier of the database. */
   name: string;
 

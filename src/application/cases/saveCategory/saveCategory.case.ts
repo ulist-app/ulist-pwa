@@ -1,5 +1,5 @@
 import { UseCase } from '../useCase'
-import { Category } from '../../../core/entities'
+import { Category } from '../../../core'
 import { CategoryRepository } from '../../repositories'
 
 export class SaveCategoryCase implements UseCase<Category, Promise<void>> {

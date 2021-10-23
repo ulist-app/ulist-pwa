@@ -1,6 +1,6 @@
 import { GetAllCategoriesCase } from './getAllCategories.case'
 import { CategoryRepository } from '../../repositories'
-import { Category } from '../../../core/entities'
+import { Category } from '../../../core'
 
 describe('Get all categories use case should', () => {
   it('return all categories', async () => {
