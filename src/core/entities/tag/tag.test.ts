@@ -6,11 +6,13 @@ describe('Tag should', () => {
     it('successfully', () => {
       const id = new Id()
       const name = 'irrelevant-name'
+      const color = 'tomato'
 
-      const tag = new Tag({ id, name })
+      const tag = new Tag({ id, name, color })
 
+      expect(tag.id).toEqual(id)
       expect(tag.name).toBe(name)
-      expect(tag.id).toBe(id)
+      expect(tag.color).toBe(color)
     })
     describe('with default', () => {
       const tag = new Tag()
@@ -19,6 +21,9 @@ describe('Tag should', () => {
       })
       it('name as "Untitled"', () => {
         expect(tag.name).toBe('Untitled')
+      })
+      it('color as #939393', () => {
+        expect(tag.color).toBe('#939393')
       })
     })
   })

@@ -8,6 +8,7 @@ describe('Item List should', () => {
       const itemListParams = {
         id: new Id('irrelevant'),
         name: 'Groceries for this week',
+        color: 'coral',
         items: [new Item()],
         template: true
       }
@@ -16,6 +17,7 @@ describe('Item List should', () => {
 
       expect(itemList.id).toEqual(itemListParams.id)
       expect(itemList.name).toBe(itemListParams.name)
+      expect(itemList.color).toBe(itemListParams.color)
       expect(itemList.items).toEqual(itemListParams.items)
       expect(itemList.template).toBe(itemListParams.template)
     })
@@ -29,6 +31,10 @@ describe('Item List should', () => {
 
       it('name as "Untitled"', () => {
         expect(itemList.name).toBe('Untitled')
+      })
+
+      it('color as #939393', () => {
+        expect(itemList.color).toBe('#939393')
       })
 
       it('items as empty list', () => {

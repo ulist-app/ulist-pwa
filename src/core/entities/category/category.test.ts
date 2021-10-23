@@ -7,7 +7,8 @@ describe('Category should', () => {
       id: new Id(),
       name: 'Groceries',
       color: 'pink',
-      lists: [new Id()]
+      lists: [new Id()],
+      tags: [new Id()]
     }
 
     it('successfully', () => {
@@ -16,7 +17,8 @@ describe('Category should', () => {
       expect(category.id.value).toBe(categoryParams.id.value)
       expect(category.name).toBe(categoryParams.name)
       expect(category.color).toBe(categoryParams.color)
-      expect(category.lists).toBe(categoryParams.lists)
+      expect(category.lists).toEqual(categoryParams.lists)
+      expect(category.tags).toEqual(categoryParams.tags)
     })
 
     describe('with default', () => {
@@ -35,7 +37,11 @@ describe('Category should', () => {
       })
 
       it('lists as empty list', () => {
-        expect(category.color).toBe('#939393')
+        expect(category.lists).toEqual([])
+      })
+
+      it('tags as empty list', () => {
+        expect(category.tags).toEqual([])
       })
     })
   })
