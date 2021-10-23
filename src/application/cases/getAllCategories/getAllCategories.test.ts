@@ -7,7 +7,7 @@ describe('Get all categories use case should', () => {
     const categoriesMock = [new Category(), new Category()]
     const repositoryMock = {
       findAll: jest.fn(async () => categoriesMock)
-    } as CategoryRepository
+    } as unknown as CategoryRepository
 
     const categories = await new GetAllCategoriesCase(repositoryMock).exec()
 

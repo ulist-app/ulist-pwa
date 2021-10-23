@@ -7,6 +7,23 @@ export class PouchDatasource {
   constructor (databaseURL: string) {
     this.api = new PouchDb(databaseURL) as PouchDatabaseApi
   }
+
+  isPouchDbError (error: unknown): error is PouchDbError {
+    return 'status' in (error as any)
+  }
+}
+
+interface PouchDbError {
+  /**
+   * HTTP Status Code during HTTP or HTTP-like operations
+   */
+  status?: number | undefined;
+  name?: string | undefined;
+  message?: string | undefined;
+  reason?: string | undefined;
+  error?: string | boolean | undefined;
+  id?: string | undefined;
+  rev?: RevisionId | undefined;
 }
 
 interface EventEmitter {
@@ -114,20 +131,7 @@ interface Selector extends CombinationOperators {
   _id?: string | ConditionOperators | undefined;
 }
 
-interface Error {
-  /**
-   * HTTP Status Code during HTTP or HTTP-like operations
-   */
-  status?: number | undefined;
-  name?: string | undefined;
-  message?: string | undefined;
-  reason?: string | undefined;
-  error?: string | boolean | undefined;
-  id?: string | undefined;
-  rev?: RevisionId | undefined;
-}
-
-type Callback<R> = (error: Error | null, result: R | null) => void;
+type Callback<R> = (error: PouchDbError | null, result: R | null) => void;
 type DocumentId = string;
 type DocumentKey = string;
 type AttachmentId = string;
@@ -393,7 +397,7 @@ interface BulkGetOptions extends Options {
 interface BulkGetResponse<Content extends {}> {
   results: Array<{
     id: string,
-    docs: Array<{ ok: Content & GetMeta } | { error: Error }>
+    docs: Array<{ ok: Content & GetMeta } | { error: PouchDbError }>
   }>;
 }
 
@@ -594,7 +598,7 @@ interface PouchDatabaseApi<Content extends {} = {}> extends EventEmitter {
    */
   bulkDocs<Model>(docs: Array<PutDocument<Content & Model>>,
                   options: BulkDocsOptions | null,
-                  callback: Callback<Array<Response | Error>>): void;
+                  callback: Callback<Array<Response | PouchDbError>>): void;
 
   /**
    * Create, update or delete multiple documents. The docs argument is an array of documents.
@@ -604,7 +608,7 @@ interface PouchDatabaseApi<Content extends {} = {}> extends EventEmitter {
    * Finally, to delete a document, include a _deleted parameter with the value true.
    */
   bulkDocs<Model>(docs: Array<PutDocument<Content & Model>>,
-                  options?: BulkDocsOptions): Promise<Array<Response | Error>>;
+                  options?: BulkDocsOptions): Promise<Array<Response | PouchDbError>>;
 
   /** Compact the database */
   compact(options?: CompactOptions): Promise<Response>;
