@@ -24,6 +24,8 @@
     "lint": "eslint . --ext ts,tsx",
     "lint:fix": "npm run lint -- --fix",
     "test": "react-scripts test",
+    "test:coverage": "npm run test -- --coverage --watchAll=false",
+    "test:coverage:serve": "npm run test:coverage && npx serve coverage/lcov-report",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -47,5 +49,21 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.1",
     "eslint-plugin-react": "^7.26.1"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!src/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/path/to/dir/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    }
   }
 }
