@@ -12,11 +12,16 @@ export class GetManyItemListsCase implements UseCase<Id[], Promise<ItemList[]>> 
   }
 
   private static sortByName (itemLists: ItemList[]): ItemList[] {
-    return [...itemLists].sort((a, b) => a.name > b.name
-      ? 1
-      : a.name < b.name
-        ? -1
-        : 0
-    )
+    return [...itemLists].sort((a, b) => {
+      if (a.name > b.name) {
+        return 1
+      }
+
+      if (a.name < b.name) {
+        return -1
+      }
+
+      return 0
+    })
   }
 }

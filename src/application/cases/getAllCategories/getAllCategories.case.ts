@@ -11,11 +11,16 @@ export class GetAllCategoriesCase implements UseCase<undefined, Promise<Category
   }
 
   private static sortByName (categories: Category[]): Category[] {
-    return [...categories].sort((a, b) => a.name > b.name
-      ? 1
-      : a.name < b.name
-        ? -1
-        : 0
-    )
+    return [...categories].sort((a, b) => {
+      if (a.name > b.name) {
+        return 1
+      }
+
+      if (a.name < b.name) {
+        return -1
+      }
+
+      return 0
+    })
   }
 }
