@@ -1,2 +1,2 @@
-export * from './CategoryDashboard'
-export * from './CategoryDetail'
+export * from './CategoryDashboardContainer'
+export * from './CategoryDetailContainer'

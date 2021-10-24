@@ -21,6 +21,14 @@ export function reducer (state: State, action: Action): State {
         categories: action.payload
       }
     }
+    case ActionType.UPDATE_AND_SELECT_CATEGORIES: {
+      const { categories, selectedCategoryId } = action.payload
+      return {
+        ...state,
+        selectedCategory: categories.find(({ id }) => id.value === selectedCategoryId.value),
+        categories
+      }
+    }
     case ActionType.UPDATE_CATEGORY_ITEM_LISTS: {
       return {
         ...state,

@@ -1,25 +1,16 @@
-import React, { useReducer } from 'react'
+import React from 'react'
 import { AppStyle } from './App.style'
 import { Route, Switch } from 'react-router-dom'
-import { reducer, AppContext, initialState } from '../store'
-import { CategoryDashboard, CategoryDetail } from '../containers'
+import { CategoryDashboardContainer, CategoryDetailContainer } from '../containers'
 
 export function App () {
-  const [state, dispatch] = useReducer(reducer, initialState)
-
   return (
-    <AppContext.Provider value={{ state, dispatch }}>
       <AppStyle>
         <Switch>
-          <Route path="/category/:id">
-            <CategoryDetail />
-          </Route>
-          <Route path="/">
-            <CategoryDashboard />
-          </Route>
+          <Route path="/category/:id" component={CategoryDetailContainer} />
+          <Route path="/" component={CategoryDashboardContainer} />
         </Switch>
       </AppStyle>
-    </AppContext.Provider>
   )
 }
 
