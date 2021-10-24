@@ -1,8 +1,6 @@
-import { ItemListRepository } from './../../repositories/item-list.repository'
-import { CategoryRepository } from '../../repositories'
-import { Category, ItemList } from '../../../core'
+import { CategoryRepository, ItemListRepository } from '../../repositories'
+import { Category, ItemList, PersistCategoryError, PersistItemListError } from '../../../core'
 import { CreateItemListCase } from './createItemList.case'
-import { PersistCategoryError, PersistItemListError } from '../../../core/errors'
 
 describe('Create item list use case should', () => {
   it('create an item list with an item with default values', async () => {
@@ -51,7 +49,7 @@ describe('Create item list use case should', () => {
     expect(itemListRepositoryMock.remove).toHaveBeenCalledWith(itemList.id)
   })
 
-  it('throw an error if item list persistance fails', async () => {
+  it('throw an error if item list persistence fails', async () => {
     const category = new Category()
     const itemList = new ItemList()
     const expectedError = new PersistItemListError(itemList)
