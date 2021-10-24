@@ -1,52 +1,25 @@
-import React, { MouseEventHandler, useEffect, useState } from 'react'
+import React, { useReducer } from 'react'
 import { AppStyle } from './App.style'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from 'react-router-dom'
-import { CategoryRepositoryImplementation } from '../../repositories/category/category.repository.implementation'
-import { PouchDatasource } from '../../repositories/pouchDb.datasource'
-import { GetAllCategoriesCase } from '../../../application/cases/getAllCategories/getAllCategories.case'
-import { Category, Id } from '../../../core'
-import { SaveCategoryCase } from '../../../application/cases/saveCategory/saveCategory.case'
-import { CategoryList } from '../components'
+import { Route, Switch } from 'react-router-dom'
+import { reducer, AppContext, initialState } from '../store'
+import { CategoryDashboard, CategoryDetail } from '../containers'
 
 export function App () {
-  const [categories, setCategories] = useState<Category[]>([])
-  const categoryRepository = new CategoryRepositoryImplementation(new PouchDatasource('http://admin:admin@192.168.1.22:5984/categories'))
-  const getAllCategoriesCase = new GetAllCategoriesCase(categoryRepository)
-  const saveCategoryCase = new SaveCategoryCase(categoryRepository)
-  const fetchCategories = () => {
-    getAllCategoriesCase.exec()
-      .then(setCategories)
-      .catch(err => console.error(err.toString()))
-  }
-  const createRandomCategory = () => {
-    saveCategoryCase.exec(new Category())
-      .then(fetchCategories)
-      .catch(err => console.error(err.toString()))
-  }
-  const updateRandomCategory: (id: Id) => MouseEventHandler = (id: Id) => () => {
-    const category = categories.find((category) => category.id.value === id.value)
-    saveCategoryCase.exec(new Category({ ...category, name: 'Groceries' }))
-      .then(fetchCategories)
-      .catch(err => console.error(err.toString()))
-  }
-
-  useEffect(fetchCategories, [])
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   return (
-    <Router>
+    <AppContext.Provider value={{ state, dispatch }}>
       <AppStyle>
         <Switch>
+          <Route path="/category/:id">
+            <CategoryDetail />
+          </Route>
           <Route path="/">
-            <button onClick={createRandomCategory}>ADD</button>
-            <CategoryList categories={categories} onClickHandler={updateRandomCategory}/>
+            <CategoryDashboard />
           </Route>
         </Switch>
       </AppStyle>
-    </Router>
+    </AppContext.Provider>
   )
 }
 

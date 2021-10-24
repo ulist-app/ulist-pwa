@@ -1,22 +1,25 @@
-import React, { MouseEventHandler } from 'react'
-import { Category, Id } from '../../../../../core'
+import React from 'react'
+import { Category } from '../../../../../core'
 import { CategoryListStyle } from './CategoryList.style'
 import { CategoryCard } from '../../atoms'
+import { Link } from 'react-router-dom'
 
 interface CategoryListProps {
   categories: Category[],
-  onClickHandler: (id: Id) => MouseEventHandler
 }
 
-export function CategoryList ({ categories, onClickHandler }: CategoryListProps) {
+export function CategoryList ({ categories }: CategoryListProps) {
   return <CategoryListStyle>
     {categories.map(category =>
-      <li
+      <Link
+        to={`/category/${category.id.value}`}
         key={category.id.value}
-        onClick={onClickHandler(category.id)}
       >
-        <CategoryCard category={category}/>
-      </li>
+        <li>
+          <CategoryCard category={category}/>
+        </li>
+      </Link>
+
     )}
   </CategoryListStyle>
 }

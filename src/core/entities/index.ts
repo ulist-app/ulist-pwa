@@ -1,5 +1,5 @@
 export * from './category'
-export * from './item-list/item-list'
+export * from './item-list'
 export * from './item'
 export * from './id'
 export * from './tag'
